@@ -1,0 +1,47 @@
+
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stores basic student information and scholarship status.",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "institution": { "type": "string" },
+        "registrationDate": { "type": "string", "format": "date-time" },
+        "paymentStatus": { "type": "string", "enum": ["pending", "success", "failed"] },
+        "trackingId": { "type": "string" },
+        "quizScore": { "type": "number" }
+      },
+      "required": ["fullName", "email", "phone", "paymentStatus"]
+    },
+    "PaymentLog": {
+      "title": "Payment Log",
+      "description": "Records individual transaction details for audit purposes.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "amount": { "type": "number" },
+        "currency": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "gatewayResponse": { "type": "object" },
+        "trackingId": { "type": "string" }
+      }
+    }
+  },
+  "auth": {
+    "providers": ["email", "google"]
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Collection of user scholarship profiles."
+    },
+    "/payments/{paymentId}": {
+      "schema": "PaymentLog",
+      "description": "Historical log of all processed payments."
+    }
+  }
+}

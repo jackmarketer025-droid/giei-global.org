@@ -1,0 +1,108 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * CORE PHILOSOPHY
+     * This ruleset enforces a strict user-ownership model designed for the GIEI London Vision 2030 Scholarship application. 
+     * Security is centered around the Applicant's Firebase Authentication UID, which serves as the primary key for authorization.
+     *
+     * DATA STRUCTURE
+     * The database is organized hierarchically:
+     * - /applicants/{applicantId}: Root profile for each student/freelancer.
+     * - /applicants/{applicantId}/paymentTransactions: Nested financial history.
+     * - /applicants/{applicantId}/notificationLogs: Nested audit trail of SMS/Email communications.
+     * - /roles_admin/{uid}: Administrative registry for global access.
+     *
+     * KEY SECURITY DECISIONS
+     * 1. Authorization Independence: All sub-documents denormalize the 'applicantId' to allow for fast, direct ownership 
+     *    checks without requiring expensive parent-document lookups (get() calls).
+     * 2. Prototyping Flexibility: While authorization is strictly enforced (who can access), the specific shape of 
+     *    content data is not validated to allow for rapid UI/Schema iteration.
+     * 3. Relational Integrity: Critical fields like 'id' and 'applicantId' are enforced on creation and made 
+     *    immutable on update to prevent data hijacking.
+     * 4. System-Only Writes: Notification logs are restricted to Administrative access, as they are intended 
+     *    to be populated by backend Cloud Functions or SMS gateway triggers.
+     */
+
+    // --- Global Helper Functions ---
+
+    /** @description Checks if the request is from an authenticated user. */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /** @description Checks if the authenticated user's UID matches the provided userId. */
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    /** @description Checks if the authenticated user has an entry in the global admin collection. */
+    function isAdmin() {
+      return isSignedIn() && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
+    }
+
+    /** @description Combines ownership check with a resource existence check for safe updates/deletes. */
+    function isExistingOwner(userId) {
+      return isOwner(userId) && resource != null;
+    }
+
+    // --- Collection Rules ---
+
+    /**
+     * @description Rules for the primary Applicant profile. Users manage their own profile; Admins have full visibility.
+     * @path /applicants/{applicantId}
+     * @allow (get) If the user's UID is 'user123' and they request /applicants/user123.
+     * @deny (list) If a regular user tries to query all applicants.
+     * @principle Restricts access to a user's own data tree and enforces path-to-data consistency.
+     */
+    match /applicants/{applicantId} {
+      allow get: if isOwner(applicantId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isOwner(applicantId) && request.resource.data.id == applicantId;
+      allow update: if isExistingOwner(applicantId) && request.resource.data.id == resource.data.id;
+      allow delete: if isAdmin();
+
+      /**
+       * @description Rules for payment history. Users can view/create their own transactions; updates restricted to prevent fraud.
+       * @path /applicants/{applicantId}/paymentTransactions/{transactionId}
+       * @allow (create) If applicant 'user123' initiates a transaction record for themselves.
+       * @deny (update) If a user tries to change the 'status' of their own payment (restricted to Admin/Backend).
+       * @principle Enforces ownership via path wildcards and protects financial record integrity.
+       */
+      match /paymentTransactions/{transactionId} {
+        allow get, list: if isOwner(applicantId) || isAdmin();
+        allow create: if isOwner(applicantId) && request.resource.data.applicantId == applicantId;
+        allow update: if isAdmin();
+        allow delete: if isAdmin();
+      }
+
+      /**
+       * @description Rules for communication logs. Read-only for users to see their history; writes restricted to system/admin.
+       * @path /applicants/{applicantId}/notificationLogs/{logId}
+       * @allow (list) If applicant 'user123' views their SMS history.
+       * @deny (create) If a user tries to manually inject a "success" notification log.
+       * @principle Structural segregation of system-generated logs from user-generated content.
+       */
+      match /notificationLogs/{logId} {
+        allow get, list: if isOwner(applicantId) || isAdmin();
+        allow create: if isAdmin();
+        allow update: if isAdmin();
+        allow delete: if isAdmin();
+      }
+    }
+
+    /**
+     * @description Global Administrative Roles collection.
+     * @path /roles_admin/{uid}
+     * @allow (get) If an admin checks their own role status.
+     * @deny (create) If any user attempts to grant themselves admin privileges.
+     * @principle Database-Based Access Control (DBAC) for sensitive global permissions.
+     */
+    match /roles_admin/{uid} {
+      allow get: if isOwner(uid) || isAdmin();
+      allow list: if isAdmin();
+      allow create, update, delete: if false; // Managed exclusively via Admin SDK or Console.
+    }
+  }
+}

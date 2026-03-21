@@ -1,0 +1,47 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "hero-bg",
+      "description": "Modern abstract technology background with cyan glows",
+      "imageUrl": "https://picsum.photos/seed/tech-glow/1200/800",
+      "imageHint": "abstract technology"
+    },
+    {
+      "id": "winner-1",
+      "description": "A happy student receiving a laptop",
+      "imageUrl": "https://picsum.photos/seed/winner1/400/300",
+      "imageHint": "student laptop"
+    },
+    {
+      "id": "winner-2",
+      "description": "Young professional with a new laptop",
+      "imageUrl": "https://picsum.photos/seed/winner2/400/300",
+      "imageHint": "professional laptop"
+    },
+    {
+      "id": "winner-3",
+      "description": "Students studying together with laptops",
+      "imageUrl": "https://picsum.photos/seed/winner3/400/300",
+      "imageHint": "students learning"
+    },
+    {
+      "id": "partner-microsoft",
+      "description": "Microsoft Logo Placeholder",
+      "imageUrl": "https://picsum.photos/seed/ms-logo/200/100",
+      "imageHint": "microsoft logo"
+    },
+    {
+      "id": "partner-hp",
+      "description": "HP Logo Placeholder",
+      "imageUrl": "https://picsum.photos/seed/hp-logo/200/100",
+      "imageHint": "hp logo"
+    },
+    {
+      "id": "partner-dell",
+      "description": "Dell Logo Placeholder",
+      "imageUrl": "https://picsum.photos/seed/dell-logo/200/100",
+      "imageHint": "dell logo"
+    }
+  ]
+}
