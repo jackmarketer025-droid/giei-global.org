@@ -11,11 +11,26 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
-    { href: "#goal", label: "লক্ষ্য" },
-    { href: "#eligibility", label: "যোগ্যতা" },
-    { href: "#faq", label: "সাধারণ প্রশ্ন" },
-    { href: "#results", label: "ফলাফল" },
+    { href: "/#goal", label: "লক্ষ্য" },
+    { href: "/#eligibility", label: "যোগ্যতা" },
+    { href: "/#faq", label: "সাধারণ প্রশ্ন" },
+    { href: "/#results", label: "ফলাফল" },
   ];
+
+  const handleLinkClick = (href: string) => {
+    setIsOpen(false);
+    
+    // If we're on the homepage and clicking a hash link, handle scroll
+    if (typeof window !== 'undefined' && window.location.pathname === '/' && href.startsWith('/#')) {
+      const targetId = href.split('#')[1];
+      const element = document.getElementById(targetId);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-white/5">
@@ -62,7 +77,7 @@ export function Navbar() {
                     <Link 
                       key={link.href} 
                       href={link.href} 
-                      onClick={() => setIsOpen(false)}
+                      onClick={() => handleLinkClick(link.href)}
                       className="text-lg font-medium hover:text-primary transition-colors"
                     >
                       {link.label}

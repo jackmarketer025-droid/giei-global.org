@@ -306,26 +306,43 @@ export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { label: 'হোম', href: '#top' },
-    { label: 'প্রজেক্ট সম্পর্কে', href: '#about' },
-    { label: 'যোগ্যতা ও নিয়মাবলী', href: '#eligibility' },
-    { label: 'ল্যাপটপ তালিকা', href: '#prizes' },
-    { label: 'ফলাফল', href: '#result' },
-    { label: 'সচরাচর জিজ্ঞাসা (FAQ)', href: '#faq' },
-    { label: 'বিজয়ীদের তালিকা', href: '#winners' },
-    { label: 'লন্ডন অফিস ভেরিফিকেশন', href: '#about-global' },
-    { label: 'যোগাযোগ', href: '#contact' },
+    { label: 'হোম', href: '/#top' },
+    { label: 'প্রজেক্ট সম্পর্কে', href: '/#about' },
+    { label: 'যোগ্যতা ও নিয়মাবলী', href: '/#eligibility' },
+    { label: 'ল্যাপটপ তালিকা', href: '/#prizes' },
+    { label: 'ফলাফল', href: '/#result' },
+    { label: 'সচরাচর জিজ্ঞাসা (FAQ)', href: '/#faq' },
+    { label: 'বিজয়ীদের তালিকা', href: '/#winners' },
+    { label: 'লন্ডন অফিস ভেরিফিকেশন', href: '/#about-global' },
+    { label: 'যোগাযোগ', href: '/#contact' },
   ];
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: typeof navItems[0]) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: any) => {
     if (item.isComingSoon) {
       e.preventDefault();
       toast({
         title: "Coming Soon",
         description: "ফলাফল খুব শীঘ্রই এই সেকশনে জানানো হবে।",
       });
+      return;
     }
+    
+    // Close mobile menu
     setIsMobileMenuOpen(false);
+
+    // If it's a hash link on the current page, we might need to handle it manually
+    // to ensure it scrolls properly after the sheet closes
+    if (item.href.startsWith('/#')) {
+      const targetId = item.href.split('#')[1];
+      const element = document.getElementById(targetId);
+      if (element) {
+        // We don't prevent default here so the URL hash still updates
+        // but we add a small delay to ensure the sheet has closed or started closing
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
   };
 
   return (
