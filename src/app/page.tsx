@@ -436,7 +436,6 @@ export default function Home() {
     { label: 'সচরাচর জিজ্ঞাসা (FAQ)', href: '/#faq', isComingSoon: false },
     { label: 'বিজয়ীদের তালিকা', href: '/#winners', isComingSoon: false },
     { label: 'লন্ডন অফিস ভেরিফিকেশন', href: '/#about-global', isComingSoon: false },
-    { label: 'যোগাযোগ', href: '/#contact', isComingSoon: false },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: any) => {
@@ -549,14 +548,14 @@ export default function Home() {
         </div>
 
         {/* Desktop Navigation Menu */}
-        <div className="hidden lg:flex items-center gap-x-1 xl:gap-x-2 mx-auto flex-1 justify-center px-2">
+        <div className="hidden lg:flex items-center gap-x-2 xl:gap-x-4 mx-auto flex-1 justify-center px-4">
           {navItems.map((item) => (
             <Link 
               key={item.label} 
               href={item.href}
               prefetch={false}
               onClick={(e) => handleNavClick(e, item)}
-              className="text-[9px] xl:text-[11px] font-black uppercase tracking-tighter xl:tracking-tight text-slate-600 hover:text-blue-600 px-1 xl:px-2 py-1 transition-all whitespace-nowrap"
+              className="text-[10px] xl:text-[12px] font-black uppercase tracking-tight text-slate-700 hover:text-blue-600 px-1 xl:px-2 py-1 transition-all whitespace-nowrap"
             >
               {item.label}
               {item.isComingSoon && <span className="ml-1 text-[7px] bg-yellow-100 text-yellow-700 px-1 py-0 rounded-full">Soon</span>}
@@ -564,7 +563,7 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="hidden 2xl:block text-[9px] text-gray-400 font-bold tracking-[0.2em] uppercase mr-4 shrink-0">
+        <div className="hidden xl:block text-[9px] text-gray-400 font-bold tracking-[0.2em] uppercase mr-4 shrink-0">
             MANAGED BY GIEI, UK
         </div>
 
