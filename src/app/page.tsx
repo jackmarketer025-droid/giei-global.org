@@ -549,14 +549,14 @@ export default function Home() {
         </div>
 
         {/* Desktop Navigation Menu */}
-        <div className="hidden lg:flex items-center gap-0.5 xl:gap-1 mx-2 flex-1 justify-center overflow-x-auto no-scrollbar">
+        <div className="hidden lg:flex items-center gap-x-1 xl:gap-x-2 mx-auto flex-1 justify-center px-2">
           {navItems.map((item) => (
             <Link 
               key={item.label} 
               href={item.href}
               prefetch={false}
               onClick={(e) => handleNavClick(e, item)}
-              className="text-[10px] xl:text-[11px] font-black uppercase tracking-tighter xl:tracking-tight text-slate-500 hover:text-blue-600 px-1.5 xl:px-2 py-1 transition-all whitespace-nowrap"
+              className="text-[9px] xl:text-[11px] font-black uppercase tracking-tighter xl:tracking-tight text-slate-600 hover:text-blue-600 px-1 xl:px-2 py-1 transition-all whitespace-nowrap"
             >
               {item.label}
               {item.isComingSoon && <span className="ml-1 text-[7px] bg-yellow-100 text-yellow-700 px-1 py-0 rounded-full">Soon</span>}
@@ -564,8 +564,8 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="hidden xl:block text-[9px] text-gray-400 font-bold tracking-[0.2em] uppercase mr-4 shrink-0">
-            Managed by GIEI, UK
+        <div className="hidden 2xl:block text-[9px] text-gray-400 font-bold tracking-[0.2em] uppercase mr-4 shrink-0">
+            MANAGED BY GIEI, UK
         </div>
 
         <Link href="#apply" prefetch={false} onClick={(e) => handleNavClick(e, { href: '#apply' })}>
