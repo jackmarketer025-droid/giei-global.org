@@ -90,7 +90,7 @@ const DEFAULT_LAPTOPS = [
     series: "Professional Series", 
     desc: "দীর্ঘস্থায়ী ব্যাটারি এবং মজবুত বডি। ছাত্র-ছাত্রীদের অ্যাসাইনমেন্ট এবং কোডিং শেখার জন্য আদর্শ।",
     model: "HP 15s বা সমমান",
-    img: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=500",
+    img: "https://res.cloudinary.com/dd3eekw7h/image/upload/v1774212559/Gemini_Generated_Image_6r118r6r118r6r11_iqoxse.png",
     color: "blue",
     order: 1
   },
@@ -99,7 +99,7 @@ const DEFAULT_LAPTOPS = [
     series: "Vostro / Inspiron", 
     desc: "চমৎকার ডিসপ্লে এবং পারফরম্যান্স। ফ্রিল্যান্সিং এবং গ্রাফিক ডিজাইনের কাজের জন্য সেরা পছন্দ।",
     model: "Dell 3511 বা সমমান",
-    img: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=500",
+    img: "https://res.cloudinary.com/dd3eekw7h/image/upload/v1774212742/Gemini_Generated_Image_v7xopiv7xopiv7xo_eplovi.png",
     color: "emerald",
     order: 2
   },
@@ -108,7 +108,7 @@ const DEFAULT_LAPTOPS = [
     series: "Ideapad Slim", 
     desc: "স্টাইলিশ লুক এবং সুপার ফাস্ট প্রসেসর। ভার্সিটির প্রেজেন্টেশন এবং মাল্টিটাস্কিংয়ের জন্য অতুলনীয়।",
     model: "Lenovo V15 বা সমমান",
-    img: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=500",
+    img: "https://res.cloudinary.com/dd3eekw7h/image/upload/v1774212760/Gemini_Generated_Image_46g2aa46g2aa46g2_kw2s49.png",
     color: "purple",
     order: 3
   },
@@ -117,7 +117,7 @@ const DEFAULT_LAPTOPS = [
     series: "Top Performers Only", 
     desc: "পুরো বাংলাদেশের মধ্যে টপ ৩ জনকে অ্যাপল ম্যাকবুক এয়ার (M-Series) উপহার দেওয়া হবে।",
     model: "MacBook Air M2/M3",
-    img: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=500",
+    img: "https://res.cloudinary.com/dd3eekw7h/image/upload/v1774212768/Gemini_Generated_Image_preswkpreswkpres_rdtbzb.png",
     color: "amber",
     isSpecial: true,
     order: 4
