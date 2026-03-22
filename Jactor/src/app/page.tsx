@@ -487,7 +487,7 @@ export default function Home() {
       <LoadingScreen />
       {/* Navigation */}
       <nav className="bg-white/80 backdrop-blur-md shadow-sm py-3 md:py-4 px-4 md:px-6 flex justify-between items-center sticky top-0 z-50">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 md:gap-3">
           {/* Mobile Hamburger Menu */}
           <div className="lg:hidden">
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
@@ -536,39 +536,39 @@ export default function Home() {
             </Sheet>
           </div>
 
-          <div className="text-xl md:text-2xl font-bold text-blue-900 flex items-center gap-1.5">
-            <div className="bg-blue-50 p-1.5 rounded-lg shrink-0">
-              <GraduationCap className="text-blue-600 w-6 h-6 md:w-7 md:h-7" />
+          <div className="text-xl md:text-2xl font-bold text-blue-900 flex items-center gap-1 xl:gap-2 shrink-0">
+            <div className="bg-blue-50 p-1 rounded-lg xl:p-1.5">
+              <GraduationCap className="text-blue-600 w-5 h-5 md:w-6 md:h-6 xl:w-7 xl:h-7" />
             </div>
             <div className="flex flex-col justify-center">
-              <span className="block leading-[1.1] font-black">Vision-2030</span>
-              <span className="text-[7px] md:text-[8px] text-slate-400 font-bold tracking-[0.05em] uppercase leading-none mt-0.5">Global IT Excellence Initiative</span>
+              <span className="block leading-[1.1] font-black text-lg xl:text-xl">Vision-2030</span>
+              <span className="text-[6px] xl:text-[8px] text-slate-400 font-bold tracking-[0.02em] xl:tracking-[0.05em] uppercase leading-none mt-0.5">Global IT Excellence Initiative</span>
             </div>
           </div>
         </div>
 
         {/* Desktop Navigation Menu */}
-        <div className="hidden lg:flex items-center gap-x-2 xl:gap-x-4 mx-auto flex-1 justify-center px-4">
+        <div className="hidden lg:flex items-center gap-x-1 xl:gap-x-3 2xl:gap-x-5 mx-auto flex-1 justify-center px-2">
           {navItems.map((item) => (
             <Link 
               key={item.label} 
               href={item.href}
               prefetch={false}
               onClick={(e) => handleNavClick(e, item)}
-              className="text-[10px] xl:text-[12px] font-black uppercase tracking-tight text-slate-700 hover:text-blue-600 px-1 xl:px-2 py-1 transition-all whitespace-nowrap"
+              className="text-[8px] xl:text-[10px] 2xl:text-[11px] font-black uppercase tracking-tighter xl:tracking-tight text-slate-700 hover:text-blue-600 px-1 xl:px-1.5 py-1 transition-all whitespace-nowrap"
             >
               {item.label}
-              {item.isComingSoon && <span className="ml-1 text-[7px] bg-yellow-100 text-yellow-700 px-1 py-0 rounded-full">Soon</span>}
+              {item.isComingSoon && <span className="ml-0.5 text-[6px] bg-yellow-100 text-yellow-700 px-1 py-0 rounded-full">Soon</span>}
             </Link>
           ))}
         </div>
 
-        <div className="hidden xl:block text-[9px] text-gray-400 font-bold tracking-[0.2em] uppercase mr-4 shrink-0">
+        <div className="hidden 2xl:block text-[8px] text-gray-400 font-bold tracking-[0.1em] uppercase mr-3 shrink-0">
             MANAGED BY GIEI, UK
         </div>
 
-        <Link href="#apply" prefetch={false} onClick={(e) => handleNavClick(e, { href: '#apply' })}>
-          <Button className="bg-blue-600 text-white px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-bold hover:bg-blue-700 transition shadow-md border-none">
+        <Link href="#apply" prefetch={false} className="shrink-0" onClick={(e) => handleNavClick(e, { href: '#apply' })}>
+          <Button className="bg-blue-600 text-white px-3 xl:px-5 py-1.5 xl:py-2 rounded-full text-[10px] xl:text-xs font-bold hover:bg-blue-700 transition shadow-md border-none">
             আবেদন করুন
           </Button>
         </Link>
