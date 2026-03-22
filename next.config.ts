@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
+    domains: ['res.cloudinary.com', 'images.unsplash.com', 'placehold.co', 'picsum.photos'],
     remotePatterns: [
       {
         protocol: 'https',
@@ -31,8 +32,6 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
-        port: '',
-        pathname: '/**',
       },
     ],
   },
