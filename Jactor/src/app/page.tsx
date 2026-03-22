@@ -117,7 +117,7 @@ const DEFAULT_LAPTOPS = [
     series: "Top Performers Only", 
     desc: "পুরো বাংলাদেশের মধ্যে টপ ৩ জনকে অ্যাপল ম্যাকবুক এয়ার (M-Series) উপহার দেওয়া হবে।",
     model: "MacBook Air M2/M3",
-    img: "https://res.cloudinary.com/dd3eekw7h/image/upload/v1774212768/Gemini_Generated_Image_preswkpreswkpres_rdtbzb.png",
+    img: "https://res.cloudinary.com/dd3eekw7h/image/upload/v1774213346/m2_m3_chip_naxovt.png",
     color: "amber",
     isSpecial: true,
     order: 4
