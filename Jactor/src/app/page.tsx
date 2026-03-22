@@ -704,10 +704,10 @@ export default function Home() {
               )}
               {laptops.map((laptop, i) => (
                 <div key={i} className={`group relative bg-white rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-xl hover:shadow-2xl transition-all duration-500 ${laptop.isSpecial ? 'ring-2 ring-amber-400' : ''}`}>
-                  <div className="relative h-48 overflow-hidden">
+                  <div className="relative aspect-[16/10] md:aspect-[16/9] overflow-hidden">
                     <NextImage 
                       src={laptop.img} 
-                      alt={laptop.brand} 
+                      alt={`${laptop.brand} ${laptop.series} Laptop`} 
                       fill 
                       className="object-cover group-hover:scale-110 transition duration-700" 
                     />
