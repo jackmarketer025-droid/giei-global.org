@@ -35,11 +35,14 @@ export function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-white/5">
       <div className="max-w-7xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
+        <Link href="/" className="flex items-center gap-1.5 group">
+          <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors shrink-0">
             <GraduationCap className="w-6 h-6 text-primary" />
           </div>
-          <span className="font-headline text-lg md:text-xl font-bold tracking-tight">Vision-2030</span>
+          <div className="flex flex-col justify-center">
+            <span className="font-headline text-lg md:text-xl font-black tracking-tight leading-[1.1]">Vision-2030</span>
+            <span className="text-[7px] md:text-[8px] text-muted-foreground/60 font-bold tracking-[0.05em] uppercase leading-none mt-0.5">Global IT Excellence Initiative</span>
+          </div>
         </Link>
 
         {/* Desktop Links */}
@@ -68,9 +71,14 @@ export function Navbar() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="bg-background border-white/10 w-[300px]">
-                <SheetTitle className="text-left mb-8 flex items-center gap-2">
-                   <GraduationCap className="w-6 h-6 text-primary" />
-                   <span>Vision-2030</span>
+                <SheetTitle className="text-left mb-8 flex items-center gap-1.5">
+                   <div className="bg-primary/10 p-1 rounded-md shrink-0">
+                    <GraduationCap className="w-5 h-5 text-primary" />
+                   </div>
+                   <div className="flex flex-col">
+                    <span className="leading-tight font-black">Vision-2030</span>
+                    <span className="text-[6px] text-muted-foreground/60 uppercase tracking-wider leading-none">Global IT Initiative</span>
+                   </div>
                 </SheetTitle>
                 <div className="flex flex-col gap-6 mt-8">
                   {navLinks.map((link) => (

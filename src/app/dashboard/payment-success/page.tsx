@@ -79,13 +79,13 @@ function PaymentSuccessContent() {
         }
       `}</style>
       <nav className="bg-[#0a1128]/80 backdrop-blur-md border-b border-white/5 py-4 px-6 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
-         <div className="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
-           <div className="bg-blue-600/20 p-1.5 rounded-lg">
+         <div className="text-xl md:text-2xl font-bold text-white flex items-center gap-1.5">
+           <div className="bg-blue-600/20 p-1.5 rounded-lg shrink-0">
              <GraduationCap className="text-blue-400 w-6 h-6" />
            </div>
-           <div>
-             <span className="block leading-none">Vision-2030</span>
-             <span className="text-[8px] text-blue-300/50 font-bold tracking-[0.1em] uppercase">Global IT Excellence Initiative</span>
+           <div className="flex flex-col justify-center">
+             <span className="block leading-[1.1] font-black">Vision-2030</span>
+             <span className="text-[7px] md:text-[8px] text-blue-300/50 font-bold tracking-[0.05em] uppercase leading-none mt-0.5">Global IT Excellence Initiative</span>
            </div>
          </div>
         <div className="text-[10px] text-white/40 font-bold tracking-widest uppercase hidden md:block">Official Payment Receipt</div>

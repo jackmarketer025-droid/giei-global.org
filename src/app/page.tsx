@@ -360,9 +360,14 @@ export default function Home() {
               </SheetTrigger>
               <SheetContent side="left" className="w-[300px] bg-white border-none p-0">
                 <SheetHeader className="p-6 border-b border-slate-50 bg-blue-50/50">
-                  <SheetTitle className="text-left flex items-center gap-2 text-blue-900">
-                    <GraduationCap className="w-6 h-6 text-blue-600" />
-                    <span>Vision-2030 Menu</span>
+                  <SheetTitle className="text-left flex items-center gap-1.5 text-blue-900">
+                    <div className="bg-blue-600/10 p-1.5 rounded-lg shrink-0">
+                      <GraduationCap className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="leading-tight font-black">Vision-2030</span>
+                      <span className="text-[7px] text-blue-600/50 uppercase tracking-widest leading-none">Global IT Initiative</span>
+                    </div>
                   </SheetTitle>
                 </SheetHeader>
                 <div className="flex flex-col p-4 overflow-y-auto max-h-[calc(100vh-100px)]">
@@ -393,13 +398,13 @@ export default function Home() {
             </Sheet>
           </div>
 
-          <div className="text-xl md:text-2xl font-bold text-blue-900 flex items-center gap-2">
-            <div className="bg-blue-50 p-1.5 rounded-lg">
+          <div className="text-xl md:text-2xl font-bold text-blue-900 flex items-center gap-1.5">
+            <div className="bg-blue-50 p-1.5 rounded-lg shrink-0">
               <GraduationCap className="text-blue-600 w-6 h-6 md:w-7 md:h-7" />
             </div>
-            <div>
-              <span className="block leading-none">Vision-2030</span>
-              <span className="text-[8px] text-slate-400 font-bold tracking-[0.1em] uppercase">Global IT Excellence Initiative</span>
+            <div className="flex flex-col justify-center">
+              <span className="block leading-[1.1] font-black">Vision-2030</span>
+              <span className="text-[7px] md:text-[8px] text-slate-400 font-bold tracking-[0.05em] uppercase leading-none mt-0.5">Global IT Excellence Initiative</span>
             </div>
           </div>
         </div>
