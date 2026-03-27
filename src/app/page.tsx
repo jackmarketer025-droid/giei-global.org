@@ -77,7 +77,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { useAuth, useFirestore, useFirebaseStorage, useCollection } from '@/firebase';
+import { useAuth, useFirestore, useFirebaseStorage, useCollection, useDoc } from '@/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc, serverTimestamp, query, collection, where, limit, getDocs, orderBy } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -139,14 +139,34 @@ export default function Home() {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [selectedMethod, setSelectedMethod] = useState<'bkash' | 'nagad' | 'rocket' | null>(null);
   const [tnxId, setTnxId] = useState('');
+  const [senderNumber, setSenderNumber] = useState('');
   const [hasFile, setHasFile] = useState(false);
   const [mounted, setMounted] = useState(false);
-  
+
   const auth = useAuth();
   const firestore = useFirestore();
   const { storage } = useFirebaseStorage();
   const { toast } = useToast();
   const router = useRouter();
+
+  // Fetch payment numbers and logos from Firestore in real-time
+  const paymentMethodsQuery = useMemo(() => {
+    if (!firestore) return null;
+    return doc(firestore, 'app_settings', 'payment_methods');
+  }, [firestore]);
+
+  const { data: paymentData } = useDoc(paymentMethodsQuery);
+
+  const paymentSettings = useMemo(() => {
+    return {
+      bkash: paymentData?.bkash_no || '01XXXXXXXXX',
+      nagad: paymentData?.nagad_no || '01XXXXXXXXX',
+      rocket: paymentData?.rocket_no || '01XXXXXXXXX',
+      bkash_logo: paymentData?.bkash_logo || '',
+      nagad_logo: paymentData?.nagad_logo || '',
+      rocket_logo: paymentData?.rocket_logo || ''
+    };
+  }, [paymentData]);
 
   const laptopsQuery = useMemo(() => {
     if (!firestore) return null;
@@ -316,6 +336,15 @@ export default function Home() {
       return;
     }
 
+    if (!senderNumber) {
+      toast({
+        variant: "destructive",
+        title: "Sender Number প্রয়োজন",
+        description: "দয়া করে যে নম্বর থেকে টাকা পাঠিয়েছেন তা প্রদান করুন।"
+      });
+      return;
+    }
+
     setLoading(true);
     toast({
       title: "পেমেন্ট ভেরিফাই করা হচ্ছে",
@@ -345,6 +374,7 @@ export default function Home() {
         paymentStatus: 'pending',
         paymentMethod: selectedMethod,
         transactionId: tnxId,
+        senderNumber: senderNumber,
         trackingId: trackingId,
         registrationDate: serverTimestamp(),
       };
@@ -352,6 +382,20 @@ export default function Home() {
       // Use setDoc with a manual reference to avoid potential Auth issues
       const userRef = doc(firestore, 'applications', trackingId);
       await setDoc(userRef, userProfile);
+
+      // 3. Save to payment_submissions collection
+      const submissionRef = doc(collection(firestore, 'payment_submissions'));
+      await setDoc(submissionRef, {
+        applicationId: trackingId,
+        fullName: formData.fullName,
+        phone: formData.primaryMobile,
+        senderNumber: senderNumber,
+        trxId: tnxId,
+        method: selectedMethod,
+        amount: 399,
+        status: 'pending',
+        timestamp: serverTimestamp(),
+      });
 
       toast({
         title: "নিবন্ধন ও পেমেন্ট সফল!",
@@ -1192,7 +1236,7 @@ export default function Home() {
               },
               {
                 q: "৫. পেমেন্ট করার পর ট্র্যাকিং আইডি না পেলে কী করবো?",
-                a: "পেমেন্ট করার পর সাধারণত অটোমেটিক ট্র্যাকিং আইডি জেনারেট হয়। যদি কোনো কারণে সেটি না পান, তবে আপনার পেমেন্টের স্ক্রিনশট এবং মোবাইল নম্বরসহ আমাদের support@giei-global.org ইমেইল করুন অথবা লাইভ চ্যাটে যোগাযোগ করুন।"
+                a: "পেমেন্ট করার পর সাধারণত অটোমেটিক ট্র্যাকিং আইডি জেনারেট হয়। যদি কোনো কারণে সেটি না পান, তবে আপনার পেমেন্টের স্ক্রিনশট এবং মোবাইল নম্বরসহ আমাদের <a href='mailto:support@gigiglobal.uk?subject=Payment Issue: Vision-2030' class='text-blue-600 underline font-bold'>support@gigiglobal.uk</a> ইমেইল করুন অথবা লাইভ চ্যাটে যোগাযোগ করুন।"
               },
               {
                 q: "৬. কুইজে কী ধরণের প্রশ্ন থাকবে?",
@@ -1225,16 +1269,22 @@ export default function Home() {
             <h3 className="text-xl font-black mb-2">আরো কিছু জানার আছে?</h3>
             <p className="text-slate-400 text-sm mb-6 font-medium">আমাদের সাপোর্ট টিম ২৪/৭ আপনার সহায়তায় নিয়োজিত।</p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link href="mailto:support@giei-global.org">
+              <Link href="mailto:support@gigiglobal.uk?subject=Inquiry: Vision-2030 Digital Scholarship&body=Hello Support Team, %0D%0A%0D%0A[Write your message here]%0D%0A%0D%0AMy Tracking ID (if any): %0D%0AContact Number: ">
                 <Button className="bg-white text-[#0a1128] hover:bg-blue-50 font-bold rounded-xl px-6 h-12 transition-transform hover:scale-105 border-none">
                   <Mail className="w-4 h-4 mr-2" /> ইমেইল করুন
                 </Button>
               </Link>
-              <Link href="#top" prefetch={false}>
-                <Button variant="outline" className="bg-white/5 border-white/10 text-white hover:bg-white/10 font-bold rounded-xl px-6 h-12 transition-transform hover:scale-105">
-                  <MessageSquare className="w-4 h-4 mr-2" /> লাইভ চ্যাট
-                </Button>
-              </Link>
+              <Button 
+                variant="outline" 
+                onClick={() => {
+                  if (typeof window !== 'undefined' && (window as any).Tawk_API) {
+                    (window as any).Tawk_API.maximize();
+                  }
+                }}
+                className="bg-white/5 border-white/10 text-white hover:bg-white/10 font-bold rounded-xl px-6 h-12 transition-transform hover:scale-105"
+              >
+                <MessageSquare className="w-4 h-4 mr-2" /> লাইভ চ্যাট
+              </Button>
             </div>
           </div>
         </div>
@@ -1586,8 +1636,18 @@ export default function Home() {
                         : 'border-gray-100 hover:border-gray-200'
                     }`}
                   >
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-white font-black text-[9px] mb-1 ${method.color}`}>
-                      {method.label[0]}
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden mb-1 ${!paymentSettings[`${id}_logo` as keyof typeof paymentSettings] ? method.color : ''}`}>
+                      {paymentSettings[`${id}_logo` as keyof typeof paymentSettings] ? (
+                        <NextImage 
+                          src={paymentSettings[`${id}_logo` as keyof typeof paymentSettings] as string} 
+                          alt={method.label} 
+                          width={32} 
+                          height={32} 
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-white font-black text-[9px]">{method.label[0]}</span>
+                      )}
                     </div>
                     <span className="text-[9px] font-bold">{method.label}</span>
                   </button>
@@ -1609,11 +1669,19 @@ export default function Home() {
                     <li>নিচের নম্বরে <b>৳ ৩৯৯.০০</b> টাকা পাঠান:</li>
                   </ol>
                   <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-blue-200">
-                    <span className="text-base font-black text-blue-900">{PAYMENT_METHODS[selectedMethod].number}</span>
+                    <span className="text-base font-black text-blue-900">
+                      {selectedMethod === 'bkash' ? paymentSettings.bkash : 
+                       selectedMethod === 'nagad' ? paymentSettings.nagad : 
+                       paymentSettings.rocket}
+                    </span>
                     <Button 
                       variant="ghost" 
                       size="icon" 
-                      onClick={() => copyToClipboard(PAYMENT_METHODS[selectedMethod].number)}
+                      onClick={() => copyToClipboard(
+                        selectedMethod === 'bkash' ? paymentSettings.bkash : 
+                        selectedMethod === 'nagad' ? paymentSettings.nagad : 
+                        paymentSettings.rocket
+                      )}
                       className="h-7 w-7 text-blue-600 hover:bg-blue-50"
                     >
                       <Copy className="w-3.5 h-3.5" />
@@ -1622,6 +1690,16 @@ export default function Home() {
                   <p className="text-[8px] text-blue-600 flex items-center gap-1 font-bold italic">
                     <AlertCircle className="w-2.5 h-2.5" /> রেফারেন্সে আপনার ফোন নম্বর ব্যবহার করুন।
                   </p>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground ml-1">Sender Number (যে নম্বর থেকে টাকা পাঠিয়েছেন)</label>
+                  <Input 
+                    placeholder="01XXXXXXXXX" 
+                    className="h-10 rounded-xl border-gray-200 text-sm font-bold"
+                    value={senderNumber}
+                    onChange={(e) => setSenderNumber(e.target.value)}
+                  />
                 </div>
 
                 <div className="space-y-1.5">
@@ -1735,8 +1813,8 @@ export default function Home() {
                     </div>
                     <div>
                       <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">ইমেইল</h4>
-                      <Link href="mailto:support@giei-global.org" className="text-blue-600 font-black text-lg hover:underline transition-all">
-                        support@giei-global.org
+                      <Link href="mailto:support@gigiglobal.uk?subject=Inquiry: Vision-2030 Digital Scholarship" className="text-blue-600 font-black text-lg hover:underline transition-all">
+                        support@gigiglobal.uk
                       </Link>
                     </div>
                   </div>

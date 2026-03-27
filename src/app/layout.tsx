@@ -8,6 +8,10 @@ import Script from 'next/script';
 export const metadata: Metadata = {
   title: 'Vision 2030 | Global IT Excellence Initiative',
   description: 'Fueling the next generation through digital scholarship and free laptop provision.',
+  icons: {
+    icon: 'https://cdn-icons-png.flaticon.com/512/3532/3532844.png',
+    apple: 'https://cdn-icons-png.flaticon.com/512/3532/3532844.png',
+  },
 };
 
 export default function RootLayout({

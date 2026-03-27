@@ -52,7 +52,7 @@ export function Footer() {
               </li>
               <li className="flex gap-3">
                 <Mail className="w-5 h-5 text-primary shrink-0" />
-                <span className="text-sm">support@giei-global.org</span>
+                <Link href="mailto:support@gigiglobal.uk?subject=Inquiry: Vision-2030" className="text-sm hover:text-primary transition-colors">support@gigiglobal.uk</Link>
               </li>
             </ul>
           </div>

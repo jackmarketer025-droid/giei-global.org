@@ -144,7 +144,7 @@ function PaymentSuccessContent() {
                   </div>
                   <div className="flex items-center gap-2 text-primary pt-3">
                     <Mail className="w-4 h-4" />
-                    <span className="text-xs font-bold tracking-wider">support@giei-global.org</span>
+                    <Link href="mailto:support@gigiglobal.uk?subject=Payment Confirmation: Vision-2030" className="text-xs font-bold tracking-wider hover:underline">support@gigiglobal.uk</Link>
                   </div>
                 </div>
               </div>
