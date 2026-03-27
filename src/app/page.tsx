@@ -395,6 +395,8 @@ export default function Home() {
         amount: 399,
         status: 'pending',
         timestamp: serverTimestamp(),
+        // Note: File is handled purely in UI and NOT saved to server as requested
+        hasScreenshot: hasFile 
       });
 
       toast({
@@ -1665,7 +1667,7 @@ export default function Home() {
                   </div>
                   <ol className="text-[10px] text-blue-800 space-y-1 list-decimal list-inside font-medium">
                     <li>আপনার {PAYMENT_METHODS[selectedMethod].label} অ্যাপে যান।</li>
-                    <li><b>'Send Money'</b> অপশনটি বেছে নিন।</li>
+                    <li><b>'Cash Out'</b> অপশনটি বেছে নিন।</li>
                     <li>নিচের নম্বরে <b>৳ ৩৯৯.০০</b> টাকা পাঠান:</li>
                   </ol>
                   <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-blue-200">
@@ -1713,26 +1715,38 @@ export default function Home() {
                 </div>
                 
                 <div className="space-y-1.5">
-                  <label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground ml-1">Payment Proof (Screenshot)</label>
-                  <button 
-                    type="button"
-                    onClick={() => setHasFile(!hasFile)}
-                    className={`w-full h-16 border-2 border-dashed rounded-xl flex flex-col items-center justify-center gap-1 transition-colors ${
-                      hasFile ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:border-blue-200 bg-gray-50'
-                    }`}
-                  >
-                    {hasFile ? (
-                      <>
-                        <Check className="w-5 h-5 text-green-600" />
-                        <span className="text-[9px] font-bold text-green-700">ফাইল আপলোড হয়েছে</span>
-                      </>
-                    ) : (
-                      <>
-                        <Upload className="w-5 h-5 text-gray-400" />
-                        <span className="text-[9px] font-bold text-gray-500">স্ক্রিনশট আপলোড করুন</span>
-                      </>
-                    )}
-                  </button>
+                  <label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground ml-1">Payment Proof (Screenshot - ঐচ্ছিক)</label>
+                  <div className="relative">
+                    <input 
+                      type="file" 
+                      accept="image/*"
+                      className="hidden" 
+                      id="screenshot-upload"
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files.length > 0) {
+                          setHasFile(true);
+                        }
+                      }}
+                    />
+                    <label 
+                      htmlFor="screenshot-upload"
+                      className={`w-full h-16 border-2 border-dashed rounded-xl flex flex-col items-center justify-center gap-1 transition-colors cursor-pointer ${
+                        hasFile ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:border-blue-200 bg-gray-50'
+                      }`}
+                    >
+                      {hasFile ? (
+                        <>
+                          <Check className="w-5 h-5 text-green-600" />
+                          <span className="text-[9px] font-bold text-green-700">ফাইল নির্বাচন করা হয়েছে</span>
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="w-5 h-5 text-gray-400" />
+                          <span className="text-[9px] font-bold text-gray-500">স্ক্রিনশট আপলোড করুন (ঐচ্ছিক)</span>
+                        </>
+                      )}
+                    </label>
+                  </div>
                 </div>
               </div>
             )}
